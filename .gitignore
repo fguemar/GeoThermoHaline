@@ -1,0 +1,7 @@
+# Jupyter Notebook 
+.ipynb_checkpoints/
+.DS_Store
+in_param.inp
+concentration.txt
+temperature.txt
+run_log.txt
