@@ -208,25 +208,31 @@ class SimuladorGeo:
             icon='check',
             layout = widgets.Layout(width='40%',
                                     margin='20px 0px 0px 0px'))
-        def button_clicked(b):
-            self.ejecutaSimulador()
         
-        BtnEjecuta.on_click(button_clicked)
-        display(BtnEjecuta)
+        output = widgets.Output()
+        
+        def on_button_clicked(b):
+            with output:
+                BtnEjecuta.disabled = True
+                BtnEjecuta.disabled = False
+                self.ejecutaSimulador()
+
+        BtnEjecuta.on_click(on_button_clicked)
+        display(BtnEjecuta, output)
 
         
     def ejecutaSimulador(self):
         """Método que ejecuta el simulador a segun el sistema operativo"""
         start_time = time()
-        
+
         if platform == "darwin":
-          print('Comienza la simulación')
+          print('Simulación en proceso...')
           os.system('executables/GEOThermohaline_macos')
         elif platform == "linux":
-          print('Comienza la simulación')
+          print('Simulación en proceso...')
           os.system('executables/GEOThermohaline_linux')         
         elif platform == "win32":
-            print('Lo sentimos, aún no tenemos versión para windows')
+            print('Lo sentimos, aún no tenemos versión para windows.')
         
         elapsed_time = time() - start_time
         print("Simulación concluida. Tiempo transcurrido: %.5f segundos."  % elapsed_time)
@@ -265,55 +271,50 @@ class SimuladorGeo:
             icon='check',
             layout = widgets.Layout(width='40%',
                                     margin='20px 0px 0px 0px'))
-      
+       
+        output = widgets.Output()
+        def on_button_clicked_nums(b):
+            with output:
+                fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16,5))
         
-        def button_clicked(b):
-      
-            fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16,5))
+                ax1.plot(datos[:,0], datos[:,1], '-', color='skyblue', linewidth=3)
+                ax1.set_xlabel('Tiempo')
+                ax1.set_ylabel('Número de Nusselt')
         
-            ax1.plot(datos[:,0], datos[:,1], '-', color='skyblue', linewidth=3)
-            ax1.set_xlabel('Tiempo')
-            ax1.set_ylabel('Número de Nusselt')
+                ax2.plot(datos[:,0], datos[:,2]*(-1), '-', color='skyblue', linewidth=3)
+                ax2.set_xlabel('Tiempo')
+                ax2.set_ylabel('Número de Sherwood')
         
-            ax2.plot(datos[:,0], datos[:,2]*(-1), '-', color='skyblue', linewidth=3)
-            ax2.set_xlabel('Tiempo')
-            ax2.set_ylabel('Número de Sherwood')
-        
-            ax3.plot(datos[:,0], datos[:,3], '-', color='skyblue', linewidth=3)
-            ax3.set_xlabel('Tiempo')
-            ax3.set_ylabel('Saturación')
+                ax3.plot(datos[:,0], datos[:,3], '-', color='skyblue', linewidth=3)
+                ax3.set_xlabel('Tiempo')
+                ax3.set_ylabel('Saturación')
             
-            resultados=plt.show()
+                plt.show()
+                display(BtnDesempeño)
+        
+        BtnGrafica.on_click(on_button_clicked_nums)
+        display(BtnGrafica, output)
+        
+        output = widgets.Output()
+        def on_button_clicked_solvrs(b):
+            with output:
+                fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16,5))
             
-            display(BtnDesempeño)
-            
-            return resultados
-  
+                ax1.plot(datos[:,0], datos[:,4], '-', color='springgreen', linewidth=3)
+                ax1.set_xlabel('Tiempo')
+                ax1.set_ylabel('Iteraciones Ec. de Calor')
         
-        BtnGrafica.on_click(button_clicked)
-        display(BtnGrafica)
+                ax2.plot(datos[:,0], datos[:,5], '-', color='springgreen', linewidth=3)
+                ax2.set_xlabel('Tiempo')
+                ax2.set_ylabel('Iteraciones Ec. de Masa')
         
-        def buttonClickedDesempeño(c):
-            
-            fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16,5))
-            
-            ax1.plot(datos[:,0], datos[:,4], '-', color='springgreen', linewidth=3)
-            ax1.set_xlabel('Tiempo')
-            ax1.set_ylabel('Iteraciones Ec. de Calor')
-        
-            ax2.plot(datos[:,0], datos[:,5], '-', color='springgreen', linewidth=3)
-            ax2.set_xlabel('Tiempo')
-            ax2.set_ylabel('Iteraciones Ec. de Masa')
-        
-            ax3.plot(datos[:,0], datos[:,6], '-', color='springgreen', linewidth=3)
-            ax3.set_xlabel('Tiempo')
-            ax3.set_ylabel('Iteraciones Ec. de Velocidad')
-        
-            desempeño=plt.show
-            
-            return desempeño
-        
-        BtnDesempeño.on_click(buttonClickedDesempeño)
+                ax3.plot(datos[:,0], datos[:,6], '-', color='springgreen', linewidth=3)
+                ax3.set_xlabel('Tiempo')
+                ax3.set_ylabel('Iteraciones Ec. de Velocidad')
+                plt.show()
+                
+        BtnDesempeño.on_click(on_button_clicked_solvrs)
+        display(output)
       
         
     def graficaSimulacion(self):
@@ -351,7 +352,7 @@ class SimuladorGeo:
         for i in range(102):
             x2[i,:]=datat[0,1:]
         
-        print('leyendo datos de la simulación...'+'\nGenerando las gráficas de la simulación')
+        print('Leyendo datos de temperatura y concentración...'+'\nGenerando la animación...')
         
         plt.style.use('ggplot')
         
