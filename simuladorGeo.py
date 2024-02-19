@@ -277,15 +277,15 @@ class SimuladorGeo:
             with output:
                 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16,5))
         
-                ax1.plot(datos[:,0], datos[:,1], '-', color='skyblue', linewidth=3)
+                ax1.plot(datos[:,0], datos[:,1], '-', color='#002060', linewidth=1.5)
                 ax1.set_xlabel('Tiempo')
                 ax1.set_ylabel('Número de Nusselt')
         
-                ax2.plot(datos[:,0], datos[:,2]*(-1), '-', color='skyblue', linewidth=3)
+                ax2.plot(datos[:,0], datos[:,2]*(-1), '-', color='#002060', linewidth=1.5)
                 ax2.set_xlabel('Tiempo')
                 ax2.set_ylabel('Número de Sherwood')
         
-                ax3.plot(datos[:,0], datos[:,3], '-', color='skyblue', linewidth=3)
+                ax3.plot(datos[:,0], datos[:,3], '-', color='#002060', linewidth=1.5)
                 ax3.set_xlabel('Tiempo')
                 ax3.set_ylabel('Saturación')
             
@@ -300,15 +300,15 @@ class SimuladorGeo:
             with output:
                 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16,5))
             
-                ax1.plot(datos[:,0], datos[:,4], '-', color='springgreen', linewidth=3)
+                ax1.plot(datos[:,0], datos[:,4], '-', color='#91BD55', linewidth=1.5)
                 ax1.set_xlabel('Tiempo')
                 ax1.set_ylabel('Iteraciones Ec. de Calor')
         
-                ax2.plot(datos[:,0], datos[:,5], '-', color='springgreen', linewidth=3)
+                ax2.plot(datos[:,0], datos[:,5], '-', color='#91BD55', linewidth=1.5)
                 ax2.set_xlabel('Tiempo')
                 ax2.set_ylabel('Iteraciones Ec. de Masa')
         
-                ax3.plot(datos[:,0], datos[:,6], '-', color='springgreen', linewidth=3)
+                ax3.plot(datos[:,0], datos[:,6], '-', color='#91BD55', linewidth=1.5)
                 ax3.set_xlabel('Tiempo')
                 ax3.set_ylabel('Iteraciones Ec. de Velocidad')
                 plt.show()
